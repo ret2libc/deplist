@@ -36,13 +36,21 @@ func main() {
 			version := dep.Version
 
 			inst, _ := purl.FromString(fmt.Sprintf("pkg:%s/%s@%s", deplist.GetLanguageStr(dep.DepType), dep.Path, version))
-			fmt.Println(inst)
+			fmt.Print(inst)
+			if dep.IsBundled {
+				fmt.Print(" [bundled]")
+			}
+			fmt.Println()
 		}
 	} else {
 		deptype := deplist.Bitmask(*deptypePtr)
 		for _, dep := range deps {
 			if (dep.DepType & deptype) == deptype {
-				fmt.Printf("%s@%s\n", dep.Path, dep.Version)
+				fmt.Printf("%s@%s", dep.Path, dep.Version)
+				if dep.IsBundled {
+					fmt.Print(" [bundled]")
+				}
+				fmt.Println()
 			}
 		}
 	}
